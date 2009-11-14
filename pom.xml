@@ -69,6 +69,7 @@
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <directory>target-${scala.version}</directory>
         <plugins>
             <plugin>
                 <groupId>org.scala-tools</groupId>
