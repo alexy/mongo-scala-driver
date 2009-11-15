@@ -21,11 +21,16 @@
 
     <repositories>
         <repository>
-            <id>scala-tools.org</id>
-            <name>Scala-Tools Maven2 Repository</name>
+            <id>scala-tools.org releases</id>
+            <name>Scala-Tools Maven2 Releases Repository</name>
             <url>http://scala-tools.org/repo-releases</url>
         </repository>
-    </repositories>
+         <repository>
+            <id>scala-tools.org snapshots</id>
+            <name>Scala-Tools Maven2 Snapshots Repository</name>
+            <url>http://scala-tools.org/repo-snapshots</url>
+        </repository>
+   </repositories>
 
     <pluginRepositories>
         <pluginRepository>
@@ -39,6 +44,11 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
         </dependency>
         <dependency>
@@ -86,9 +96,11 @@
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
                     <args>
+                        <arg>-deprecation</arg>
                         <arg>-unchecked</arg>
                         <arg>-g:vars</arg>
                         <arg>-explaintypes</arg>
+                        <!--arg>-optimise</arg-->
                     </args>
                 </configuration>
             </plugin>

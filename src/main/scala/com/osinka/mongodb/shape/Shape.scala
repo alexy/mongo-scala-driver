@@ -2,8 +2,9 @@ package com.osinka.mongodb.shape
 
 import scala.reflect.Manifest
 import com.mongodb.DBObject
-import Preamble.tryo
-import wrapper.DBO
+import com.osinka.mongodb.Preamble.tryo
+import com.osinka.mongodb.wrapper.DBO
+import com.osinka.mongodb.{MongoObject,Serializer}
 
 /*
  * Basic object/field shape

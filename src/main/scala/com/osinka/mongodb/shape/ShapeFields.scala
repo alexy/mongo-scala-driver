@@ -1,7 +1,7 @@
 package com.osinka.mongodb.shape
 
 import com.mongodb.DBObject
-import Preamble.tryo
+import com.osinka.mongodb.Preamble.tryo
 
 trait BaseField[A] extends BaseShape[A, Any] {
     def fieldName: String
@@ -58,11 +58,14 @@ trait ShapeFields[Host, QueryType] extends FieldContainer { parent =>
                 m + (dotNotation(fieldPath ::: e._1 :: Nil) -> e._2)
             }
         override def pack(v: V): Any = fieldShape.pack(v)
-        override def extract(v: Any): Option[V] =
-            for {val raw <- tryo(v) if raw.isInstanceOf[DBObject]
-                 val dbo = raw.asInstanceOf[DBObject]
-                 val result <- fieldShape extract dbo}
+        
+        override def extract(v: Any): Option[V] = {
+            import com.osinka.mongodb.extractors.DBObject
+            for { raw <- tryo(v)
+                  dbo <- DBObject(raw)
+                  result <- fieldShape extract dbo }
             yield result
+        }
     }
 
     // TODO: ref

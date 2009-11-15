@@ -52,10 +52,11 @@ trait MongoCollection[T] extends Collection[T] with DBCollectionWrapper {
 
     // -- Collection[T]
     override def elements: Iterator[T] = find
+    override def iterator: Iterator[T] = elements
 
-    def firstOption: Option[T] = findOne(Query.empty)
+    override def firstOption: Option[T] = findOne(Query.empty)
 
-    def headOption = firstOption
+    override def headOption = firstOption
 
     /**
      * Size of the collection

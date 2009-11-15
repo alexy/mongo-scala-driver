@@ -1,6 +1,7 @@
 package com.osinka.mongodb.wrapper
 
-import com.mongodb.{DBObject, BasicDBObject}
+import com.mongodb.{DBObject,BasicDBObject}
+
 
 object DBO {
     def empty = new BasicDBObject
@@ -39,7 +40,7 @@ object DBO {
 
     def mirrorMeta(obj: DBObject): Map[String, String] = {
         import scala.collection.immutable.Map
-        import Preamble.tryo
+        import com.osinka.mongodb.Preamble.tryo
 
         val keys = "_id" :: "_ns" :: Nil
         val l = for {val key <- keys

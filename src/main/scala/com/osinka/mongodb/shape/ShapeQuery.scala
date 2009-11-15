@@ -1,6 +1,7 @@
 package com.osinka.mongodb.shape
 
-import Preamble._
+import com.osinka.mongodb.Preamble._
+import com.osinka.mongodb.Query
 
 trait Queriable[T] { self: DBObjectShape[T] =>
     def where(query: QueryTerm[T]) = ShapeQuery() where query

@@ -1,7 +1,8 @@
 package com.osinka.mongodb.shape
 
 import com.mongodb.{DBCollection, DBObject}
-import wrapper._
+import com.osinka.mongodb.wrapper._
+import com.osinka.mongodb.{MongoCollection,QueriedCollection,Query,Serializer}
 
 class ShapedCollection[T](override val underlying: DBCollection, val shape: DBObjectShape[T])
         extends MongoCollection[T]
