@@ -22,7 +22,7 @@ trait BaseShape[Type, Rep] {
 /*
  * Shape of an object backed by DBObject ("hosted in")
  */
-trait DBObjectShape[T]
+trait ObjectShape[T]
         extends BaseShape[T, DBObject]
         with Serializer[T]
         with ShapeFields[T, T]
@@ -69,18 +69,16 @@ trait DBObjectShape[T]
 /**
  * Mix-in to make a shape functional, see FunctionalTransformer for explanation
  *
- * ShapeFunctionObject will provide shape with convinience syntactic sugar
- * for converting object to DBObject and extractor for opposite
+ * FunctionalShape make a shape with convinient syntactic sugar
+ * for converting object to DBObject (apply) and extractor for the opposite
  *
  * E.g.
  * val dbo = UserShape(u)
  * dbo match {
  *    case UserShape(u) =>
  * }
- *
- * The same applies to field shapes
  */
-trait FunctionalShape[T] { self: DBObjectShape[T] =>
+trait FunctionalShape[T] { self: ObjectShape[T] =>
     def apply(x: T): DBObject = pack(x)
     def unapply(rep: DBObject): Option[T] = extract(rep)
 }
@@ -90,7 +88,7 @@ trait FunctionalShape[T] { self: DBObjectShape[T] =>
  *
  * It has mandatory _id and _ns fields
  */
-trait MongoObjectShape[T <: MongoObject] extends DBObjectShape[T] {
+trait MongoObjectShape[T <: MongoObject] extends ObjectShape[T] {
     import com.mongodb.ObjectId
 
     object oid extends Scalar[ObjectId]("_id", _.mongoOID)
@@ -106,18 +104,6 @@ trait MongoObjectShape[T <: MongoObject] extends DBObjectShape[T] {
         override def update(x: T, ns: String): Unit = x.mongoNS = ns
     }
 
-    // -- DBObjectShape[T]
+    // -- ObjectShape[T]
     override def * : List[Field[T, _]] = oid :: ns :: Nil
-}
-
-/*
- * Shape to be used by users.
- */
-trait Shape[T <: MongoObject] extends MongoObjectShape[T]
-
-abstract class AbstractShape[T <: MongoObject](implicit m: Manifest[T]) extends Shape[T] {
-    val clazz = m.erasure
-
-    // -- DBObjectShape[T]
-    override def factory(dbo: DBObject): Option[T] = Some(clazz.newInstance.asInstanceOf[T])
 }

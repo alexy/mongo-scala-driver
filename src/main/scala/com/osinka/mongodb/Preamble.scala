@@ -17,8 +17,8 @@ trait Implicits {
 
     // NB trying to move type parameters from def in to def queryToColl
     // to fix compilation errors
-    implicit def queryToColl[T, Self <: QueriedCollection[T, Self]](q: Query) = new {
-        def in(coll: QueriedCollection[T, Self]): Self = coll.applied(q)
+    implicit def queryToColl(q: Query) = new {
+        def in[T, Self <: QueriedCollection[T, Self]](coll: Self): Self = coll.applied(q)
     }
 
     implicit def wrapperToDBO(coll: DBCollectionWrapper): DBCollection = coll.underlying

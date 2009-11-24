@@ -3,7 +3,7 @@ package com.osinka.mongodb.shape
 import com.osinka.mongodb.Preamble._
 import com.osinka.mongodb.Query
 
-trait Queriable[T] { self: DBObjectShape[T] =>
+trait Queriable[T] { self: ObjectShape[T] =>
     def where(query: QueryTerm[T]) = ShapeQuery() where query
     def drop(n: Int) = ShapeQuery() drop n
     def take(n: Int) = ShapeQuery() take n

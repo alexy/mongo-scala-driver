@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.osinka</groupId>
     <artifactId>mongo-scala-driver</artifactId>
-    <version>0.5.2</version>
+    <version>0.6</version>
     <packaging>jar</packaging>
     <name>MongoDB driver for Scala</name>
     <inceptionYear>2009</inceptionYear>
@@ -102,11 +102,30 @@
                         <arg>-explaintypes</arg>
                         <!--arg>-optimise</arg-->
                     </args>
+                    <launchers>
+                        <launcher>
+                            <!-- mvn scala:run -Dlauncher=overhead -->
+                            <id>overhead</id>
+                            <mainClass>com.osinka.mongodb.benchmark.overhead</mainClass>
+                            <jvmArgs>
+                                <jvmArg>-Xshare:off</jvmArg>
+                            </jvmArgs>
+                            <args>
+                                <arg>50000</arg>
+                                <arg>4</arg>
+                            </args>
+                        </launcher>
+                    </launchers>
                 </configuration>
             </plugin>
             <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>com/osinka/mongodb/benchmark/**</exclude>
+                    </excludes>
+                </configuration>
             </plugin-->
         </plugins>
     </build>
